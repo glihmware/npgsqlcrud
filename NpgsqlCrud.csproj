@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+
+	  <PackageId>NpgsqlCrud</PackageId>
+
+	  <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+	  <Authors>glihm</Authors>
+	  <Company>glihmware</Company>
+	  <Description>Thin CRUD on the top of NPGSQL.</Description>
+	  <Copyright>© glihmware</Copyright>
+	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
+	  <PackageProjectUrl>https://github.com/glihmware/cryptool.git</PackageProjectUrl>
+	  <RepositoryUrl>https://github.com/glihmware/cryptool.git</RepositoryUrl>
+	  <PackageTags>Cryptography</PackageTags>
+	  <Version>1.0.5</Version>
+	  <DocumentationFile>Cryptool.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Npgsql" Version="5.0.10" />
+  </ItemGroup>
+
+</Project>
