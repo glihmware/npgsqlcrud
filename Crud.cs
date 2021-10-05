@@ -650,7 +650,56 @@ namespace NpgsqlCrud
 
 
 
+        /// <summary>
+        ///   Raw query with no SELECT returned, only the number of affected rows.
+        /// </summary>
+        /// <param name="query"></param>
+        /// <param name="conn"></param>
+        /// <returns></returns>
+        public async static Task<(NpgsqlCrudErrno, int)>
+        RawQuery(string query, NpgsqlConnection conn = null)
+        {
+            bool connWasNull = false;
 
+            if (conn == null)
+            {
+                connWasNull = true;
+                conn = await Adapter.OpenFromEnv();
+            }
+
+            await Adapter.LogToFile($"RAW : {query}");
+
+            int nr;
+            await using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
+            {
+                try
+                {
+                    nr = await cmd.ExecuteNonQueryAsync();
+                }
+                catch (PostgresException e)
+                {
+                    Console.WriteLine(e);
+                    await Adapter.LogToFile(e);
+                    return (NpgsqlCrudErrno.Generic, -1);
+                }
+                finally
+                {
+                    if (connWasNull) conn.Dispose();
+                }
+            }
+
+            return (NpgsqlCrudErrno.Ok, nr);
+        }
+
+
+
+        /// <summary>
+        ///   Raw query based on SELECT.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="query"></param>
+        /// <param name="conn"></param>
+        /// <returns></returns>
         public async static Task<(NpgsqlCrudErrno, List<T>)>
             RawQuery<T>(string query, NpgsqlConnection conn = null)
             where T : class, new()

@@ -132,6 +132,11 @@ namespace NpgsqlCrud
                 DbFieldEnumTypeCast _tc = Attribute.GetCustomAttribute(p, typeof(DbFieldEnumTypeCast)) as DbFieldEnumTypeCast;
                 if (_tc != null) v = Convert.ChangeType(v, _tc.DbType);
 
+                if (v != null && v.GetType() == typeof(string))
+                {
+                    v = v.ToString().Replace("'", "''");
+                }
+
                 if (i < fields.Length - 1)
                 {
                     strf += $"{f}, ";
@@ -176,7 +181,13 @@ namespace NpgsqlCrud
             return $"SELECT {fstr} FROM {table} WHERE (id = {id})";
         }
 
-        //
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="wb"></param>
+        /// <param name="onlyFields"></param>
+        /// <returns></returns>
         public static string
             QueryRead<T>(WhereBuilder wb = null, string[] onlyFields = null)
         {
@@ -252,6 +263,11 @@ namespace NpgsqlCrud
                 DbFieldEnumTypeCast _tc = Attribute.GetCustomAttribute(p, typeof(DbFieldEnumTypeCast)) as DbFieldEnumTypeCast;
                 if (_tc != null) v = Convert.ChangeType(v, _tc.DbType);
 
+                if (v != null && v.GetType() == typeof(string))
+                {
+                    v = v.ToString().Replace("'", "''");
+                }
+
                 sets += $"{f} = '{v}'";
 
                 if (i < fields.Length - 1) sets += ", ";
@@ -293,6 +309,11 @@ namespace NpgsqlCrud
 
                 DbFieldEnumTypeCast _tc = Attribute.GetCustomAttribute(p, typeof(DbFieldEnumTypeCast)) as DbFieldEnumTypeCast;
                 if (_tc != null) v = Convert.ChangeType(v, _tc.DbType);
+
+                if (v != null && v.GetType() == typeof(string))
+                {
+                    v = v.ToString().Replace("'", "''");
+                }
 
                 sets += $"{f} = '{v}'";
 

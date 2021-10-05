@@ -20,9 +20,21 @@ namespace NpgsqlCrud
         /// <returns></returns>
         public delegate string DbFieldToPropertyConverter(string dbField);
 
+        /// <summary>
+        /// 
+        /// </summary>
         public static string DefaultConnStr;
+        
+        /// <summary>
+        /// 
+        /// </summary>
         public static string LogPath;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="o"></param>
+        /// <returns></returns>
         public static async Task
         LogToFile(object o)
         {

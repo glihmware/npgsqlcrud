@@ -1,0 +1,381 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>NpgsqlCrud</name>
+    </assembly>
+    <members>
+        <member name="T:NpgsqlCrud.Adapter">
+            
+        </member>
+        <member name="T:NpgsqlCrud.Adapter.DbFieldToPropertyConverter">
+            <summary>
+              Converter for Db field name to C# property name.
+            </summary>
+            <param name="dbField"></param>
+            <returns></returns>
+        </member>
+        <member name="F:NpgsqlCrud.Adapter.DefaultConnStr">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:NpgsqlCrud.Adapter.LogPath">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:NpgsqlCrud.Adapter.LogToFile(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="o"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NpgsqlCrud.Adapter.OpenFromEnv(System.String)">
+            <summary>
+              Opens a connection from the provided environment variable.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NpgsqlCrud.Adapter.ToObjectsAsync``1(Npgsql.NpgsqlDataReader,NpgsqlCrud.Adapter.DbFieldToPropertyConverter)">
+            <summary>
+              Convert the the rows in the reader to an instance of T.
+            </summary>
+            <typeparam name="T">
+              Type of the instance to be created.
+              Must declare a parameterless constructor.
+            </typeparam>
+            <param name="reader"> Npgsql reader instance. </param>
+            <param name="fieldNameToPropertyConverter">
+              Delegate to be called in order to convert a database field name to a C# property name.
+              If null, the default LowerCaseToCamelCase will be used (field_name => FieldName).
+            </param>
+            <returns> List of T instances. (Empty list if no rows were found) </returns>
+        </member>
+        <member name="M:NpgsqlCrud.Adapter.ToObjectAsync``1(Npgsql.NpgsqlDataReader,NpgsqlCrud.Adapter.DbFieldToPropertyConverter)">
+            <summary>
+              Convert the first row in the reader to an instance of T.
+            </summary>
+            <typeparam name="T">
+              Type of the instance to be created.
+              Must declare a parameterless constructor.
+            </typeparam>
+            <param name="reader"> Npgsql reader instance. </param>
+            <param name="fieldNameToPropertyConverter">
+              Delegate to be called in order to convert a database field name to a C# property name.
+              If null, the default LowerCaseToCamelCase will be used (field_name => FieldName).
+            </param>
+            <returns>
+              Instance of T if the first row can be converted to T type, null otherwise.
+            </returns>
+        </member>
+        <member name="M:NpgsqlCrud.Adapter._propertyNameFromDbFieldName(System.String,NpgsqlCrud.Adapter.DbFieldToPropertyConverter)">
+            <summary>
+              Converts a db field name to C# field name using the converter (if provided).
+            </summary>
+            <param name="dbFieldName"> Db field to be converted. </param>
+            <param name="converter">
+              If provided, the delegate used to convert a db field name to C# property name.
+              If null, the default LowerCaseToCamelCase is user (field_name => FieldName).
+            </param>
+            <returns></returns>
+        </member>
+        <member name="M:NpgsqlCrud.Adapter._toObject``1(System.Collections.Generic.List{System.String},Npgsql.NpgsqlDataReader)">
+             <summary>
+               Converts a row to an instance of T.
+            
+             </summary>
+             <typeparam name="T">
+               Type of the instance to be created.
+               Must declare a parameterless constructor.
+             </typeparam>
+             <param name="props"> List of properties expected as column name. </param>
+             <param name="reader"> Npgsql reader instance. </param>
+             <returns> Instance of T on success, null otherwise. </returns>
+        </member>
+        <member name="T:NpgsqlCrud.CaseFormatter">
+            
+        </member>
+        <member name="M:NpgsqlCrud.CaseFormatter.CamelCaseToLowerCase(System.String)">
+            
+        </member>
+        <member name="M:NpgsqlCrud.CaseFormatter.LowerCaseToCamelCase(System.String)">
+            
+        </member>
+        <member name="T:NpgsqlCrud.NpgsqlCrudOp">
+            <summary>
+              Operation types that can be done on the database.
+            </summary>
+        </member>
+        <member name="T:NpgsqlCrud.NpgsqlCrudErrno">
+            <summary>
+              Reason / return code from database related call.
+            </summary>
+        </member>
+        <member name="T:NpgsqlCrud.DbFieldIgnoreWrite">
+            <summary>
+              A field flagged as IgnoreWrite will be removed from
+              a query associated with a write operation.
+            </summary>
+        </member>
+        <member name="T:NpgsqlCrud.DbFieldIgnoreRead">
+            <summary>
+              A field flagged as IgnoreRead will be removed from
+              a query associated with a read operation.
+            </summary>
+        </member>
+        <member name="T:NpgsqlCrud.DbFieldInternal">
+            <summary>
+              A field flagged as Internal will be ignored for
+              all operations.
+            </summary>
+        </member>
+        <member name="T:NpgsqlCrud.DbFieldOptionalFk">
+            <summary>
+              A field flagged as OptionalFk will be ignored during
+              write operation if the value is 0 (default int value).
+              Read operation on OptionalFk field will return 0 if the database
+              value is NULL.
+            </summary>
+        </member>
+        <member name="T:NpgsqlCrud.DbFieldEnumTypeCast">
+            <summary>
+              A field flagged as DbFieldEnumTypeCast will be converted
+              to the given type before writing it or after reading it.
+              DbTypeMatch MUST be a type that Npgsql can translate to SQL.
+            </summary>
+        </member>
+        <member name="T:NpgsqlCrud.Crud">
+            <summary>
+              Crud related high level functionalities.
+            </summary>
+        </member>
+        <member name="M:NpgsqlCrud.Crud.Read``1(System.String[],NpgsqlCrud.WhereBuilder,Npgsql.NpgsqlConnection)">
+            <summary>
+              Reads one or more rows from the given query.
+            </summary>
+            <typeparam name="T">
+              Type of the instance to be created.
+              Must declare a parameterless constructor.
+            </typeparam>
+            <param name="fields">
+              Fields to be selected in the query.
+              If null, the fields are selected based on the property attributes.
+            </param>
+            <param name="conn">
+              Postgresql connection. If not null, the given connection is used.
+              If null, a new connection from the environment variable is open.
+            </param>
+            <returns> (Db associated error code, List of T on success (null otherwise)) </returns>
+        </member>
+        <member name="M:NpgsqlCrud.Crud.ReadFirst``1(System.String[],NpgsqlCrud.WhereBuilder,Npgsql.NpgsqlConnection)">
+            <summary>
+              Reads one or more rows from the given query.
+            </summary>
+            <typeparam name="T">
+              Type of the instance to be created.
+              Must declare a parameterless constructor.
+            </typeparam>
+            <param name="selectfields">
+              Fields to be selected in the query.
+              If null, the fields are selected based on the property attributes.
+            </param>
+            <param name="conn">
+              Postgresql connection. If not null, the given connection is used.
+              If null, a new connection from the environment variable is open.
+            </param>
+            <returns> (Db associated error code, List of T on success (null otherwise)) </returns>
+        </member>
+        <member name="M:NpgsqlCrud.Crud.ReadFirst``1(System.Int64,System.String[],Npgsql.NpgsqlConnection)">
+            <summary>
+              Reads the first row for the given id.
+            </summary>
+            <typeparam name="T">
+              Type of the instance to be created.
+              Must declare a parameterless constructor.
+            </typeparam>
+            <param name="fields">
+              Fields to be selected in the query.
+              If null, the fields are selected based on the property attributes.
+            </param>
+            <param name="conn">
+              Postgresql connection. If not null, the given connection is used.
+              If null, a new connection from the environment variable is open.
+            </param>
+            <returns> (Db associated error code, List of T on success (null otherwise)) </returns>
+        </member>
+        <member name="M:NpgsqlCrud.Crud.Create``1(``0,System.String[],Npgsql.NpgsqlConnection)">
+            <summary>
+              Performs an insert query from the given fields or object.
+            </summary>
+            <typeparam name="T">
+              Type to be converted from / to table columns (and match the table's name).
+            </typeparam>
+            <param name="t">
+              Object from where fields value are retrieved to fill the database row.
+            </param>
+            <param name="fields">
+              Fields to be inserted in the query.
+              If null, the fields are selected based on t properties.
+            </param>
+            <param name="conn">
+              Postgresql connection. If not null, the given connection is used.
+              If null, a new connection from the environment variable is open.
+            </param>
+            <returns> (Db associated error code, newly inserted id) </returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:NpgsqlCrud.Crud.Create``1(System.Collections.Generic.List{``0},System.String[],Npgsql.NpgsqlConnection)" -->
+        <member name="M:NpgsqlCrud.Crud.Update``1(System.Int64,``0,System.String[],Npgsql.NpgsqlConnection)">
+            <summary>
+              Performs an udpate query based on the id column.
+            </summary>
+            <typeparam name="T"> Type to be converted from / to table columns. </typeparam>
+            <param name="id"> Id of the row to be updated. </param>
+            <param name="t"> Object from where fields value are retrieved to fill the database row. </param>
+            <param name="fields">
+              Fields to be inserted in the query.
+              If null, the fields are selected based on t properties.
+            </param>
+            <param name="conn">
+              Postgresql connection. If not null, the given connection is used.
+              If null, a new connection from the environment variable is open.
+            </param>
+            <returns> (Db associated error code, true if the row was updated (false otherwise)) </returns>
+        </member>
+        <member name="M:NpgsqlCrud.Crud.Update``1(NpgsqlCrud.WhereBuilder,``0,System.String[],Npgsql.NpgsqlConnection)">
+            <summary>
+              Performs an udpate query based on the given where clause.
+            </summary>
+            <typeparam name="T"> Type to be converted from / to table columns. </typeparam>
+            <param name="wb"> WhereBuilder to select the row to be updated. </param>
+            <param name="t"> Object from where fields value are retrieved to fill the database row. </param>
+            <param name="fields">
+              Fields to be inserted in the query.
+              If null, the fields are selected based on t properties.
+            </param>
+            <param name="conn">
+              Postgresql connection. If not null, the given connection is used.
+              If null, a new connection from the environment variable is open.
+            </param>
+            <returns> (Db associated error code, true if the row was updated (false otherwise)) </returns>
+        </member>
+        <member name="M:NpgsqlCrud.Crud.Delete``1(System.Int64,Npgsql.NpgsqlConnection)">
+            <summary>
+              Performs an delete query based on the given id.
+            </summary>
+            <typeparam name="T">
+              Type to be converted from / to table columns (and match the table's name).
+            </typeparam>
+            <param name="id"> Id of the row to be deleted. </param>
+            <param name="conn">
+              Postgresql connection. If not null, the given connection is used.
+              If null, a new connection from the environment variable is open.
+            </param>
+            <returns> (Db associated error code, true if the row was deleted (false otherwise)) </returns>
+        </member>
+        <member name="M:NpgsqlCrud.Crud.Delete``1(NpgsqlCrud.WhereBuilder,System.Boolean,Npgsql.NpgsqlConnection)">
+            <summary>
+              Performs an delete query based on the where clause.
+            </summary>
+            <typeparam name="T">
+              Type to be converted from / to table columns (and match the table's name).
+            </typeparam>
+            <param name="wb"></param>
+            <param name="force"> Must be set to True if no where clauses specified. </param>
+            <param name="conn">
+              Postgresql connection. If not null, the given connection is used.
+              If null, a new connection from the environment variable is open.
+            </param>
+            <returns> (Db associated error code, number of affected rows) </returns>
+        </member>
+        <member name="M:NpgsqlCrud.Crud.RawQuery(System.String,Npgsql.NpgsqlConnection)">
+            <summary>
+              Raw query with no SELECT returned, only the number of affected rows.
+            </summary>
+            <param name="query"></param>
+            <param name="conn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NpgsqlCrud.Crud.RawQuery``1(System.String,Npgsql.NpgsqlConnection)">
+            <summary>
+              Raw query based on SELECT.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="query"></param>
+            <param name="conn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NpgsqlCrud.QueryBuilder.SelectFieldFromProps``1(System.String[])">
+            <summary>
+              Select fields for a read operation based on the property
+              attributes of object of type T.
+            </summary>
+            <typeparam name="T"> Type from where properties are parsed. </typeparam>
+            <param name="onlySelectFields">
+              Fields to be selected in the query.
+              If provided, only properties in fields will be selected.
+            </param>
+            <returns> SQL fields select part of the query. </returns>
+        </member>
+        <member name="M:NpgsqlCrud.QueryBuilder.GetProps``1(NpgsqlCrud.NpgsqlCrudOp,System.String[],System.Boolean,System.Object)">
+            <summary>
+              Lists all the properties candidate to be fields in a SQL query.
+              Properties are filtered based on their attributes (DbField...).
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="op"></param>
+            <param name="toLowerCase"></param>
+            <param name="o"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NpgsqlCrud.QueryBuilder.QueryCreate``1(``0,System.String[])">
+            
+        </member>
+        <member name="M:NpgsqlCrud.QueryBuilder.QueryCount``1(NpgsqlCrud.WhereBuilder)">
+            
+        </member>
+        <member name="M:NpgsqlCrud.QueryBuilder.QueryRead``1(System.Int32,System.String[])">
+            
+        </member>
+        <member name="M:NpgsqlCrud.QueryBuilder.QueryRead``1(NpgsqlCrud.WhereBuilder,System.String[])">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="wb"></param>
+            <param name="onlyFields"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NpgsqlCrud.QueryBuilder.QueryDelete``1(System.Int64)">
+            
+        </member>
+        <member name="M:NpgsqlCrud.QueryBuilder.QueryUpdate``1(System.Int64,``0,System.String[])">
+            
+        </member>
+        <member name="M:NpgsqlCrud.QueryBuilder.QueryUpdate``1(NpgsqlCrud.WhereBuilder,``0,System.String[])">
+            
+        </member>
+        <member name="M:NpgsqlCrud.QueryBuilder._fieldSelector(System.String[])">
+            <summary>
+              Builds SQL fields selection.
+            </summary>
+            <param name="fields"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NpgsqlCrud.QueryBuilder._getTableName``1">
+            <summary>
+              Computes the table name from the object type.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:NpgsqlCrud.QueryBuilder._hasAttribute(System.Reflection.PropertyInfo,System.Type)">
+            <summary>
+              Verifies if the given property has the given attribute.
+            </summary>
+            <param name="pi"></param>
+            <param name="t"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

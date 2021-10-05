@@ -9,14 +9,14 @@
 	  <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
 	  <Authors>glihm</Authors>
 	  <Company>glihmware</Company>
-	  <Description>Thin CRUD on the top of NPGSQL.</Description>
+	  <Description>Thin CRUD query builder on the top of NPGSQL.</Description>
 	  <Copyright>© glihmware</Copyright>
 	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
-	  <PackageProjectUrl>https://github.com/glihmware/cryptool.git</PackageProjectUrl>
-	  <RepositoryUrl>https://github.com/glihmware/cryptool.git</RepositoryUrl>
-	  <PackageTags>Cryptography</PackageTags>
-	  <Version>1.0.5</Version>
-	  <DocumentationFile>Cryptool.xml</DocumentationFile>
+	  <PackageProjectUrl>https://github.com/glihmware/npgsqlcrud.git</PackageProjectUrl>
+	  <RepositoryUrl>https://github.com/glihmware/npgsqlcrud.git</RepositoryUrl>
+	  <PackageTags>Postgres;Npgsql;CRUD</PackageTags>
+	  <DocumentationFile>NpgsqlCrud.xml</DocumentationFile>
+	  <Version>1.0.6</Version>
   </PropertyGroup>
 
   <ItemGroup>
