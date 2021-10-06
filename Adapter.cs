@@ -79,6 +79,22 @@ namespace NpgsqlCrud
         }
 
         /// <summary>
+        ///   Reuse the connection if not null, otherwise open a new connection from env default.
+        /// </summary>
+        /// <param name="conn"></param>
+        /// <returns> True if a new connection was opened, false otherwise. </returns>
+        public static async Task<bool> ReuseOrOpenFromEnv(NpgsqlConnection conn)
+        {
+            if (conn == null)
+            {
+                conn = await OpenFromEnv();
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
         ///   Convert the the rows in the reader to an instance of T.
         /// </summary>
         /// <typeparam name="T">
