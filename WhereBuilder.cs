@@ -1,4 +1,6 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
+
 namespace NpgsqlCrud
 {
     public class WhereBuilder
@@ -25,7 +27,7 @@ namespace NpgsqlCrud
 
         public void AndBetween((string, object, object) fields, bool scoped = true)
         {
-            
+
             this.AddClause((fields.Item1, $"{fields.Item2}' AND '{fields.Item3}"), op: "BETWEEN", andOr: "AND");
         }
 
@@ -43,6 +45,16 @@ namespace NpgsqlCrud
             {
                 val = fieldValue.Item2.ToString();
                 if (op != "BETWEEN") val = val.Replace("'", "''");
+                if (op == "IN")
+                {
+                    var _i2 = fieldValue.Item2;
+                    if (!(_i2 is IEnumerable<int>) && (_i2 is IEnumerable<string>))
+                    {
+                        throw new Exception("Operator IN is expecting IEnumerable<int|string> as value.");
+                    }
+
+                    val = string.Join(", ", _i2);
+                }
             }
             else
             {

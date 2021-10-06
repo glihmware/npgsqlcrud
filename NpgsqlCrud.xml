@@ -37,6 +37,13 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:NpgsqlCrud.Adapter.ReuseOrOpenFromEnv(Npgsql.NpgsqlConnection)">
+            <summary>
+              Reuse the connection if not null, otherwise open a new connection from env default.
+            </summary>
+            <param name="conn"></param>
+            <returns> True if a new connection was opened, false otherwise. </returns>
+        </member>
         <member name="M:NpgsqlCrud.Adapter.ToObjectsAsync``1(Npgsql.NpgsqlDataReader,NpgsqlCrud.Adapter.DbFieldToPropertyConverter)">
             <summary>
               Convert the the rows in the reader to an instance of T.
@@ -302,6 +309,68 @@
             </summary>
             <typeparam name="T"></typeparam>
             <param name="query"></param>
+            <param name="conn"></param>
+            <returns></returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "T:NpgsqlCrud.DtoMapper" -->
+        <member name="M:NpgsqlCrud.DtoMapper.EntityToDto``2(``0)">
+            <summary>
+              Maps entity fields into the given dto.
+            </summary>
+            <typeparam name="E"></typeparam>
+            <typeparam name="D"></typeparam>
+            <param name="e"></param>
+            <returns> Null if entity was null, the dto otherwise. </returns>
+        </member>
+        <member name="M:NpgsqlCrud.DtoMapper.EntitiesToDto``2(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+              Applies EntityToDto on an enumerable.
+            </summary>
+            <typeparam name="E"></typeparam>
+            <typeparam name="D"></typeparam>
+            <param name="es"></param>
+            <returns> Null if the IEnumerable was null, the list of dto otherwise. </returns>
+        </member>
+        <member name="T:NpgsqlCrud.MetaCrud">
+            <summary>
+              Some handy stuff generalized for queries.
+            </summary>
+        </member>
+        <member name="M:NpgsqlCrud.MetaCrud.FromField``1(System.String,System.String,Npgsql.NpgsqlConnection)">
+            <summary>
+              Retrieves an entity from a unique field comparison.
+              (guid, label for instance)
+              
+              FIXME: deport into NpgsqlCrud...!
+            </summary>
+            <param name="what"></param>
+            <param name="value"></param>
+            <param name="conn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NpgsqlCrud.MetaCrud.FromId``1(System.Int32,Npgsql.NpgsqlConnection)">
+            <summary>
+            
+            </summary>
+            <typeparam name="E"></typeparam>
+            <param name="id"></param>
+            <param name="conn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NpgsqlCrud.MetaCrud.FromId``1(System.Int64,Npgsql.NpgsqlConnection)">
+            <summary>
+            
+            </summary>
+            <typeparam name="E"></typeparam>
+            <param name="id"></param>
+            <param name="conn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NpgsqlCrud.MetaCrud.ListAll``1(Npgsql.NpgsqlConnection)">
+            <summary>
+            
+            </summary>
+            <typeparam name="E"></typeparam>
             <param name="conn"></param>
             <returns></returns>
         </member>

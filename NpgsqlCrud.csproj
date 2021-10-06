@@ -16,7 +16,7 @@
 	  <RepositoryUrl>https://github.com/glihmware/npgsqlcrud.git</RepositoryUrl>
 	  <PackageTags>Postgres;Npgsql;CRUD</PackageTags>
 	  <DocumentationFile>NpgsqlCrud.xml</DocumentationFile>
-	  <Version>1.0.6</Version>
+	  <Version>1.0.10</Version>
   </PropertyGroup>
 
   <ItemGroup>
